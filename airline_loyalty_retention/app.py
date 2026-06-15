@@ -12,7 +12,12 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 import warnings
+import os
 warnings.filterwarnings("ignore")
+
+# Resolve paths relative to this script file so Streamlit Cloud finds the CSV
+# regardless of which directory the process is launched from
+HERE = os.path.dirname(os.path.abspath(__file__))
 
 # ─────────────────────────────────────────────────────────────
 # PAGE CONFIG
@@ -96,7 +101,7 @@ st.markdown("""
 # ─────────────────────────────────────────────────────────────
 @st.cache_data
 def load_data():
-    df = pd.read_csv("final_customer_segments.csv")
+    df = pd.read_csv(os.path.join(HERE, "final_customer_segments.csv"))
     return df
 
 @st.cache_data
@@ -120,7 +125,7 @@ def build_dashboard_data(df):
     dashboard["Total_Points_Acc"]          = df["Total_Points_Acc"].values
 
     # ── Cluster labels now come directly from the merged CSV ──
-    dashboard["Cluster"] = df["Cluster"].values
+    dashboard["Cluster"] = df["cluster"].values
 
     # Segment names (verify against your actual cluster assignments)
     segment_map = {
@@ -666,8 +671,7 @@ with tab4:
     <div style="text-align:center; color:#94a3b8; font-size:0.8rem; padding:1rem;
                 border-top:1px solid #e2e8f0">
         Airline Loyalty Retention Intelligence ·
-        Consulting & Analytics Club, IIT Guwahati ·erverAddress=localhost
-        
+        Consulting & Analytics Club, IIT Guwahati ·
         Summer Projects 2026 ·
         XGBoost AUC 0.9883 · K-Means Silhouette 0.2931
     </div>
