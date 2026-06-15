@@ -443,10 +443,31 @@ with tab3:
         fig2 = px.pie(
             seg_counts, values="Count", names="Segment",
             title="Customer Segment Distribution",
-            color_discrete_sequence=["#6366f1", "#ef4444", "#10b981"],
+            color="Segment",
+            color_discrete_map={
+                "Loyal Core Members"         : "#10b981",
+                "Disengaged At-Risk Members" : "#ef4444",
+                "High-Frequency New Flyers"  : "#6366f1"
+            },
             hole=0.4
         )
-        fig2.update_layout(height=350, title_font_size=14, paper_bgcolor='white')
+        fig2.update_layout(
+            height=350,
+            title_font_size=14,
+            paper_bgcolor="white",
+            plot_bgcolor="white",
+            legend=dict(
+                font=dict(color="#1e293b", size=12),
+                bgcolor="white",
+                bordercolor="#e2e8f0",
+                borderwidth=1
+            )
+        )
+        fig2.update_traces(
+            textposition="inside",
+            textinfo="percent",
+            textfont=dict(color="white", size=13)
+        )
         st.plotly_chart(fig2, use_container_width=True)
 
     row2_col1, row2_col2 = st.columns(2)
