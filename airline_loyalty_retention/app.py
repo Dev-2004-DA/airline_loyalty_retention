@@ -19,6 +19,34 @@ warnings.filterwarnings("ignore")
 # regardless of which directory the process is launched from
 HERE = os.path.dirname(os.path.abspath(__file__))
 
+# ── Shared Plotly layout — forces visible text in both light and dark mode ──
+CHART_LAYOUT = dict(
+    plot_bgcolor="white",
+    paper_bgcolor="white",
+    font=dict(color="#1e293b", family="Inter, sans-serif"),
+    title_font=dict(color="#1e293b", size=14),
+    xaxis=dict(
+        color="#1e293b",
+        tickfont=dict(color="#1e293b"),
+        title_font=dict(color="#1e293b"),
+        gridcolor="#f1f5f9",
+        linecolor="#e2e8f0"
+    ),
+    yaxis=dict(
+        color="#1e293b",
+        tickfont=dict(color="#1e293b"),
+        title_font=dict(color="#1e293b"),
+        gridcolor="#f1f5f9",
+        linecolor="#e2e8f0"
+    ),
+    legend=dict(
+        font=dict(color="#1e293b", size=12),
+        bgcolor="white",
+        bordercolor="#e2e8f0",
+        borderwidth=1
+    )
+)
+
 # ─────────────────────────────────────────────────────────────
 # PAGE CONFIG
 # ─────────────────────────────────────────────────────────────
@@ -432,8 +460,7 @@ with tab3:
             title="Customer Risk Tier Distribution", text="Count"
         )
         fig1.update_traces(texttemplate='%{text:,}', textposition='outside')
-        fig1.update_layout(showlegend=False, plot_bgcolor='white',
-                           paper_bgcolor='white', title_font_size=14, height=350)
+        fig1.update_layout(**CHART_LAYOUT, showlegend=False, height=350)
         st.plotly_chart(fig1, use_container_width=True)
 
     with row1_col2:
@@ -452,16 +479,8 @@ with tab3:
             hole=0.4
         )
         fig2.update_layout(
-            height=350,
-            title_font_size=14,
-            paper_bgcolor="white",
-            plot_bgcolor="white",
-            legend=dict(
-                font=dict(color="#1e293b", size=12),
-                bgcolor="white",
-                bordercolor="#e2e8f0",
-                borderwidth=1
-            )
+            **CHART_LAYOUT,
+            height=350
         )
         fig2.update_traces(
             textposition="inside",
@@ -485,8 +504,11 @@ with tab3:
             text="Churn Rate %"
         )
         fig3.update_traces(texttemplate='%{text:.1f}%', textposition='outside')
-        fig3.update_layout(coloraxis_showscale=False, plot_bgcolor='white',
-                           paper_bgcolor='white', title_font_size=14, height=350)
+        fig3.update_layout(
+            **CHART_LAYOUT,
+            coloraxis_showscale=False,
+            height=350
+        )
         st.plotly_chart(fig3, use_container_width=True)
 
     with row2_col2:
@@ -497,11 +519,12 @@ with tab3:
             labels={"churn_probability": "Churn Probability"}
         )
         fig4.add_vline(x=0.5, line_dash="dash", line_color="#ef4444",
-                       annotation_text="High Risk threshold (0.5)")
+                       annotation_text="High Risk (0.5)",
+                       annotation_font_color="#ef4444", annotation_font_size=11)
         fig4.add_vline(x=0.2, line_dash="dash", line_color="#f59e0b",
-                       annotation_text="Medium Risk (0.2)")
-        fig4.update_layout(plot_bgcolor='white', paper_bgcolor='white',
-                           title_font_size=14, height=350)
+                       annotation_text="Medium Risk (0.2)",
+                       annotation_font_color="#f59e0b", annotation_font_size=11)
+        fig4.update_layout(**CHART_LAYOUT, height=350)
         st.plotly_chart(fig4, use_container_width=True)
 
     st.markdown('<p class="section-header">Flight Activity vs Tenure by Segment</p>',
@@ -525,8 +548,10 @@ with tab3:
             "Total_Flights" : "Total Flights (2017-2018)"
         }
     )
-    fig5.update_layout(plot_bgcolor='white', paper_bgcolor='white',
-                       title_font_size=14, height=420)
+    fig5.update_layout(
+        **CHART_LAYOUT,
+        height=420
+    )
     st.plotly_chart(fig5, use_container_width=True)
 
 # ══════════════════════════════════════════════════════════════
